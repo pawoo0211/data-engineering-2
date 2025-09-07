@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    flinkVersion = '1.19.0'    // Flink 자체 버전
+    scalaBinaryVersion = '2.12' // Flink가 의존하는 Scala 버전
+    jacksonVersion = '2.14.0'
+}
+
+dependencies {
+    // ✅ Flink core (Scala 2.12 빌드 사용)
+    implementation "org.apache.flink:flink-java:${flinkVersion}"
+    implementation "org.apache.flink:flink-streaming-java:${flinkVersion}"
+    implementation "org.apache.flink:flink-clients_${scalaBinaryVersion}:${flinkVersion}"
+
+    // ✅ Flink Kafka connector (Kafka 3.x용, Scala 2.12 빌드)
+    implementation "org.apache.flink:flink-connector-kafka:${flinkVersion}"
+
+    // ✅ Jackson (JSON 직렬화/역직렬화)
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+
+    // ✅ Logging (SLF4J + Logback)
+    implementation "org.slf4j:slf4j-api:2.0.7"
+    runtimeOnly "ch.qos.logback:logback-classic:1.4.7"
+
+    // ✅ Lombok
+    compileOnly "org.projectlombok:lombok:1.18.30"
+    annotationProcessor "org.projectlombok:lombok:1.18.30"
+    testCompileOnly "org.projectlombok:lombok:1.18.30"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.30"
+
+    // ✅ JUnit (테스트)
+    testImplementation "org.junit.jupiter:junit-jupiter:5.9.3"
+}
+
+test {
+    useJUnitPlatform()
+}
